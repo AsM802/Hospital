@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Your Medical History</h2>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header">
+        <h3>Medical Records</h3>
+    </div>
+    <div class="card-body">
+        {% for record in records %}
+            <div class="mb-3">
+                <h5 class="card-title">Record from {{ record.record_date }}</h5>
+                <p><strong>Diagnoses:</strong> {{ record.diagnoses }}</p>
+                <p><strong>Allergies:</strong> {{ record.allergies }}</p>
+                <p><strong>Treatment History:</strong> {{ record.treatment_history }}</p>
+            </div>
+            {% if not forloop.last %}<hr>{% endif %}
+        {% empty %}
+            <p class="text-muted">No medical records found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h3>Prescriptions</h3>
+    </div>
+    <div class="card-body">
+        {% for prescription in prescriptions %}
+            <div class="mb-3">
+                <h5 class="card-title">Prescription from {{ prescription.prescription_date }}</h5>
+                <p><strong>Doctor:</strong> Dr. {{ prescription.doctor.first_name }} {{ prescription.doctor.last_name }}</p>
+                <p><strong>Medication:</strong> {{ prescription.medication }}</p>
+                <p><strong>Dosage:</strong> {{ prescription.dosage }}</p>
+                <p><strong>Instructions:</strong> {{ prescription.instructions }}</p>
+            </div>
+            {% if not forloop.last %}<hr>{% endif %}
+        {% empty %}
+            <p class="text-muted">No prescriptions found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}

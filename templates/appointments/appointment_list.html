@@ -1,0 +1,14 @@
+{% for appointment in appointments %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Appointment with Dr. {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</h5>
+            <p class="card-text"><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+            <p class="card-text"><strong>Reason:</strong> {{ appointment.reason }}</p>
+            <p class="card-text"><strong>Status:</strong> <span class="badge bg-primary">{{ appointment.status }}</span></p>
+        </div>
+    </div>
+{% empty %}
+    <div class="alert alert-info" role="alert">
+        You have no appointments scheduled.
+    </div>
+{% endfor %}

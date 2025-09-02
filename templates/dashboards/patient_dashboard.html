@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Welcome, {{ user.first_name }}!</h2>
+    <div>
+        <a href="{% url 'medical_history' %}" class="btn btn-info"><i class="fas fa-notes-medical"></i> Medical History</a>
+        <a href="{% url 'billing_history' %}" class="btn btn-warning"><i class="fas fa-file-invoice-dollar"></i> Billing History</a>
+        <a href="{% url 'book_appointment' %}" class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Book New Appointment</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h3>Your Appointments</h3>
+    </div>
+    <div class="card-body">
+        {% include 'appointments/appointment_list.html' %}
+    </div>
+</div>
+
+{% endblock %}

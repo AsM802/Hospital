@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to E-Hospitality!</h1>
+    <p class="lead">Your comprehensive solution for patient care, administration, and clinical operations.</p>
+    <hr class="my-4">
+    <p>Manage appointments, access medical history, and streamline healthcare processes with ease.</p>
+    <div class="d-grid gap-2 d-md-block">
+        <a class="btn btn-primary btn-lg" href="{% url 'patient_login' %}" role="button"><i class="fas fa-user"></i> Patient Login</a>
+        <a class="btn btn-info btn-lg" href="{% url 'staff_login' %}" role="button"><i class="fas fa-user-shield"></i> Staff Login</a>
+    </div>
+    <a class="btn btn-secondary btn-lg mt-3" href="{% url 'patient_signup' %}" role="button"><i class="fas fa-user-plus"></i> Sign Up as Patient</a>
+</div>
+{% endblock %}

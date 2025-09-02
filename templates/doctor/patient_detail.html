@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load core_filters %}
+
+{% block content %}
+<h2 class="mb-4">Medical History for {{ patient.first_name }} {{ patient.last_name }}</h2>
+
+{# Display existing records and prescriptions #}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h3>Medical Records</h3></div>
+            <div class="card-body">
+                {% for record in records %}
+                    <div class="mb-3">
+                        <h5 class="card-title">Record from {{ record.record_date }}</h5>
+                        <p><strong>Diagnoses:</strong> {{ record.diagnoses }}</p>
+                        <p><strong>Allergies:</strong> {{ record.allergies }}</p>
+                        <p><strong>Treatment History:</strong> {{ record.treatment_history }}</p>
+                    </div>
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% empty %}
+                    <p class="text-muted">No medical records found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h3>Prescriptions</h3></div>
+            <div class="card-body">
+                {% for prescription in prescriptions %}
+                    <div class="mb-3">
+                        <h5 class="card-title">Prescription from {{ prescription.prescription_date }}</h5>
+                        <p><strong>Medication:</strong> {{ prescription.medication }}</p>
+                        <p><strong>Dosage:</strong> {{ prescription.dosage }}</p>
+                        <p><strong>Instructions:</strong> {{ prescription.instructions }}</p>
+                    </div>
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% empty %}
+                    <p class="text-muted">No prescriptions found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Forms to add new records #}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h4>Add New Medical Record</h4></div>
+            <div class="card-body">
+                <form action="{% url 'add_medical_record' patient.id %}" method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in record_form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field|add_class:"form-control" }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add Record</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h4>Add New Prescription</h4></div>
+            <div class="card-body">
+                <form action="{% url 'add_prescription' patient.id %}" method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in prescription_form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field|add_class:"form-control" }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-prescription-bottle-alt"></i> Add Prescription</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'doctor_patient_list' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Patient List</a>
+</div>
+{% endblock %}

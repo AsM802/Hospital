@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Your Patients</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="list-group">
+            {% for patient in patients %}
+                <a href="{% url 'patient_detail' patient.id %}" class="list-group-item list-group-item-action">
+                    {{ patient.first_name }} {{ patient.last_name }}
+                </a>
+            {% empty %}
+                <div class="list-group-item text-muted">You have no patients yet.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}
